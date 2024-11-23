@@ -25,6 +25,10 @@ public class Player {
         this.score = 0;
     }
 
+    public char getSymbol() {
+        return this.symbol;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Player) {
