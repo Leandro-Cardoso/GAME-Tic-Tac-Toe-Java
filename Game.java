@@ -23,7 +23,7 @@ public class Game {
 
     public void resetField() {
         for (int i = 0; i < 9; i++) {
-            this.field[i] = (char) (i + 1);
+            this.field[i] = (char) (49 + i);
         }
     }
 
@@ -32,14 +32,17 @@ public class Game {
     }
 
     public boolean play(int i) {
-        if (this.field[i] == this.players[0].getSymbol() || this.field[i] == this.players[1].getSymbol()) {
+        if (i < 0 || i >= this.field.length) {
             return false;
         }
-        else {
+
+        if (this.field[i] != this.players[0].getSymbol() && this.field[i] != this.players[1].getSymbol()) {
             this.field[i] = this.players[this.p].getSymbol();
 
             return true;
         }
+        
+        return false;
     }
 
     public boolean isWinner() {
@@ -49,7 +52,7 @@ public class Game {
                     break;
                 }
 
-                if (i == victory[-1]) {
+                if (i == victory[2]) {
                     return true;
                 }
             }
@@ -58,30 +61,38 @@ public class Game {
         return false;
     }
 
+    public Player[] getPlayers() {
+        return this.players;
+    }
+
+    public int getP() {
+        return this.p;
+    }
+
     @Override
     public String toString() {
-        String str = " TIC-TAC-TOE\n\n";
+        StringBuilder str = new StringBuilder(" TIC-TAC-TOE\n\n");
 
         if (this.p == 0) {
-            str.concat(this.COLOR + this.players[0] + this.END_COLOR + "\n" + this.players[1]);
+            str.append(this.COLOR + this.players[0] + this.END_COLOR + "\n" + this.players[1] + "\n");
         }
         else {
-            str.concat(this.players[0] + "\n" + this.COLOR + this.players[1] + this.END_COLOR);
+            str.append(this.players[0] + "\n" + this.COLOR + this.players[1] + this.END_COLOR + "\n");
         }
 
         for (int i = 0; i < this.field.length; i++) {
             if (i % 3 == 0 && i != 9) {
-                str.concat("\n");
+                str.append("\n");
             }
             
             if (this.field[i] == this.players[0].getSymbol() || this.field[i] == this.players[1].getSymbol()) {
-                str.concat(" " + this.COLOR + this.field[i] + this.END_COLOR);
+                str.append(" " + this.COLOR + this.field[i] + this.END_COLOR);
             }
             else {
-                str.concat(" " + this.field[i]);
+                str.append(" " + this.field[i]);
             }
         }
 
-        return str;
+        return str.toString();
     }
 }
